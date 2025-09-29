@@ -1,3 +1,3 @@
 export const sayHola = (req, res) => {
-  res.send("Hola desde mi enrutador");
+  res.send("Hello welcome to movie list");
 };
