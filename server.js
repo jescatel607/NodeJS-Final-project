@@ -6,7 +6,14 @@ import pingRouter from "./routes/ping.js";
 import authRoutes from "./routes/auth.js";
 import movieRoutes from "./routes/movies.js";
 
+import swaggerUi from "swagger-ui-express";
+import { readFileSync } from "fs";
+
 config();
+
+const swaggerDocument = JSON.parse(
+  readFileSync(new URL("./swagger.json", import.meta.url))
+);
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -19,8 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// The frontend from /public
-app.use(express.static("public"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // One working API route
 app.use("/api/ping", pingRouter);
